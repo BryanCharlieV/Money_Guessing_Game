@@ -1,0 +1,70 @@
+package decision_structures;
+
+import java.util.Scanner;
+
+public class MoneyGuessGame {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        boolean playAgain = true;
+
+        while (playAgain) {
+            // Greeting
+            System.out.println("Welcome to the Money Guess Game!");
+            System.out.println("The game where you guess the amount of change and see if you win.");
+            System.out.println("Can you make the magic number?");
+            System.out.println("Try your luck. I'm not giving any hints. Where's the fun in that >:)");
+
+            // Ask for quantities of coins
+            System.out.print("\nEnter the quantity of pennies: ");
+            int pennies = scanner.nextInt();
+
+            System.out.print("Enter the quantity of nickels: ");
+            int nickels = scanner.nextInt();
+
+            System.out.print("Enter the quantity of dimes: ");
+            int dimes = scanner.nextInt();
+
+            System.out.print("Enter the quantity of quarters: ");
+            int quarters = scanner.nextInt();
+
+            // Calculate the total value
+            double totalValue = calculateTotalValue(pennies, nickels, dimes, quarters);
+
+            // Check if the total amount is an even dollar
+            if (isEvenDollar(totalValue)) {
+                System.out.println("\nShit. You won. Well, better luck to me next time.");
+            } else {
+                System.out.println("\nYou lose!!! I win! I am the champion! Kneel before your god.");
+                double difference = Math.abs(totalValue - Math.round(totalValue));
+                System.out.printf("You were off by %.2f cents.\n", difference * 100);
+            }
+
+            // Ask if the player wants to play again
+            System.out.print("\nDo you want to play again? (Yes/No): ");
+            String playAgainResponse = scanner.next().toLowerCase();
+
+            if (playAgainResponse.equals("no")) {
+                playAgain = false;
+                System.out.println("Ah, running away, eh? You yellow bastard!");
+            } else if (!playAgainResponse.equals("yes")) {
+                System.out.println("Invalid response. Exiting the game.");
+                playAgain = false;
+            }
+        }
+
+        // Close the scanner to prevent resource leaks
+        scanner.close();
+    }
+
+    // Function to calculate the total value of coins
+    private static double calculateTotalValue(int pennies, int nickels, int dimes, int quarters) {
+        return (pennies * 0.01) + (nickels * 0.05) + (dimes * 0.10) + (quarters * 0.25);
+    }
+
+    // Function to check if the total amount is an even dollar
+    private static boolean isEvenDollar(double totalValue) {
+        return totalValue % 1 == 0;
+    }
+}
